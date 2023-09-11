@@ -1,0 +1,85 @@
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./Dbconnect/Databasecon');
+const app = express();
+const route = require('./Router/UserRoute');
+const cookieparser = require("cookie-parser")
+const userModel = require("./Model/Usermodel")
+
+const io = require('socket.io')( process.env.PORT || 8080, {
+    cors: {
+        origin: 'https://myapp-chathut-message.netlify.app/',
+    }
+});
+require('dotenv').config()
+app.use(express.json());
+
+app.use(cookieparser())
+
+app.use(cors({
+    origin: 'https://myapp-chathut-message.netlify.app/',
+    credentials: true
+}))
+
+
+app.use('/api/user', route);
+
+
+connectDB(process.env.DB_URL);
+
+let users = [];
+io.on('connection', socket => {
+    socket.on('addUser', userId => {
+        const isUserExist = users.find(user => user.userId === userId);
+        if (!isUserExist) {
+            const user = { userId, socketId:socket.id };
+            users.push(user);
+            io.emit('getUsers', users);
+        }
+        else {
+            io.to(socket.id).emit('alreadyExist');
+        }
+    });
+
+    socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId }) => {
+        const receiver = users.find(user => user.userId === receiverId);
+        const sender = users.find(user => user.userId === senderId);
+        const user = await userModel.findById(senderId);
+        if (receiver) {
+            io.to(receiver.socketId).to(sender.socketId).emit('getMessage', {
+                senderId,
+                message,
+                conversationId,
+                receiverId,
+                user: { id: user._id }
+            });
+        }
+        else {
+            io.to(sender.socketId).emit('getMessage', {
+                senderId,
+                message,
+                conversationId,
+                receiverId,
+                user: { id: user._id }
+            });
+        }
+    });
+
+    socket.on('disconnect', () => {
+        users = users.filter(user => user.socketId !== socket.id);
+        io.emit('getUsers', users);
+    });
+
+});
+
+
+
+
+
+
+const port = process.env.PORT || 8000;
+
+
+app.listen(port, () => {
+    console.log('listening on port ' + port);
+})
