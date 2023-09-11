@@ -8,7 +8,7 @@ const userModel = require("./Model/Usermodel")
 
 const io = require('socket.io')( process.env.PORT || 8080, {
     cors: {
-        origin: 'https://myapp-chathut-message.netlify.app/',
+        origin: 'https://myapp-chathut-message.netlify.app',
     }
 });
 require('dotenv').config()
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieparser())
 
 app.use(cors({
-    origin: 'https://myapp-chathut-message.netlify.app/',
+    origin: 'https://myapp-chathut-message.netlify.app',
     credentials: true
 }))
 
