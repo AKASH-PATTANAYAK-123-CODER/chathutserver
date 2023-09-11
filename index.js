@@ -2,13 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./Dbconnect/Databasecon');
 const app = express();
+const server=require('http').createServer(app);
 const route = require('./Router/UserRoute');
 const cookieparser = require("cookie-parser")
 const userModel = require("./Model/Usermodel")
 
-const io = require('socket.io')( process.env.PORT || 8080, {
+const io = require('socket.io')(server, {
     cors: {
-        origin: 'https://myapp-chathut-message.netlify.app',
+        origin:'https://myapp-chathut-message.netlify.app'       //'http://localhost:3000'               
     }
 });
 require('dotenv').config()
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(cookieparser())
 
 app.use(cors({
-    origin: 'https://myapp-chathut-message.netlify.app',
+    origin:'https://myapp-chathut-message.netlify.app' ,                        //'https://myapp-chathut-message.netlify.app',
     credentials: true
 }))
 
@@ -77,9 +78,9 @@ io.on('connection', socket => {
 
 
 
-const port = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5345;
 
 
-app.listen(port, () => {
-    console.log('listening on port ' + port);
+server.listen(PORT, () => {
+    console.log('listening on port ' + PORT);
 })
