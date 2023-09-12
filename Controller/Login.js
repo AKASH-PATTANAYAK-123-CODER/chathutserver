@@ -28,7 +28,7 @@ const LoginUser = async (req, res) => {
 
        const token=create_Token(user._id);
 
-        res.cookie("chathuttoken",token, { maxAge:86400000 ,httpOnly:true,sameSite:None,secure:true});
+       res.cookie("chathuttoken",token, { maxAge:86400000 ,sameSite:None,secure:true});
                                                                  
        res.redirect("/api/user/authenticate");
     }
