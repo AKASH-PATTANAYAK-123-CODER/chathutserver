@@ -26,7 +26,7 @@ app.use(cors({
 
 app.use('/api/user', route);
 
-const dburl="mongodb://127.0.0.1:27017/ChatApp"
+const dburl="mongodb://0.0.0.0:27017/ChatApp"
 connectDB(dburl);
 
 let users = [];
