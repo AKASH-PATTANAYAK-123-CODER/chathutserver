@@ -6,16 +6,17 @@ const server=require('http').createServer(app);
 const route = require('./Router/UserRoute');
 const cookieparser = require("cookie-parser")
 const userModel = require("./Model/Usermodel")
+require('dotenv').config()
+app.use(express.json());
+app.use(cookieparser())
 
 const io = require('socket.io')(server, {
     cors: {
         origin:'https://myapp-chathut-message.netlify.app'       //'http://localhost:3000'               
     }
 });
-require('dotenv').config()
-app.use(express.json());
 
-app.use(cookieparser())
+
 
 app.use(cors({
     origin:'https://myapp-chathut-message.netlify.app' ,                        //'https://myapp-chathut-message.netlify.app',
@@ -25,8 +26,8 @@ app.use(cors({
 
 app.use('/api/user', route);
 
-
-connectDB('mongodb://127.0.0.1:27017/ChatApp');
+const dburl="mongodb://127.0.0.1:27017/ChatApp"
+connectDB(dburl);
 
 let users = [];
 io.on('connection', socket => {
