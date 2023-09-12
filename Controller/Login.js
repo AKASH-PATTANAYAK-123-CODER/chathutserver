@@ -30,10 +30,8 @@ const LoginUser = async (req, res) => {
       
 
        res.cookie("chathuttoken",token,{ maxAge:86400000});
-
-       res.status(200).json("Success");
                                                                  
-       //res.redirect("/api/user/authenticate");
+       res.redirect("/api/user/authenticate");
     }
     catch (error) {
         res.status(400).json("Server Error")
