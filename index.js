@@ -26,8 +26,8 @@ app.use(cors({
 
 app.use('/api/user', route);
 
-const dburl="mongodb://0.0.0.0:27017/ChatApp"
-connectDB(dburl);
+
+connectDB(process.env.DB_URL);
 
 let users = [];
 io.on('connection', socket => {
