@@ -27,9 +27,9 @@ const LoginUser = async (req, res) => {
         if(!isValidPassword) return res.status(400).json("Invalid Password Give Valid One..");
 
        const token=create_Token(user._id);
-       res.status(200).json(token);
+      
 
-       res.cookie("chathuttoken",token,{ maxAge:86400000 ,sameSite:None,secure:true});
+       res.cookie("chathuttoken",token,{ maxAge:86400000});
                                                                  
        //res.redirect("/api/user/authenticate");
     }
