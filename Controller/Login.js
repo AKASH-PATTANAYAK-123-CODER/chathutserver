@@ -29,7 +29,7 @@ const LoginUser = async (req, res) => {
        const token=create_Token(user._id);
        res.status(200).json(token);
 
-       //res.cookie("chathuttoken",token, { maxAge:86400000 ,sameSite:None,secure:true});
+       res.cookie("chathuttoken",token,{ maxAge:86400000 ,sameSite:None,secure:true});
                                                                  
        //res.redirect("/api/user/authenticate");
     }
