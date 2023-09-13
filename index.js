@@ -8,19 +8,20 @@ const cookieparser = require("cookie-parser")
 const userModel = require("./Model/Usermodel")
 require('dotenv').config()
 app.use(express.json());
-app.use(cookieparser())
+app.use(cookieparser());
+app.set("trust proxy",1);
 
-const io = require('socket.io')(server, {
+                               
+const io = require('socket.io')(server,{
     cors: {
-        origin:'https://myapp-chathut-message.netlify.app'       //'http://localhost:3000'               
-    }
-});
-
+        origin:'https://myapp-chathut-message.netlify.app'  
+    }                                                                              
+});     
 
 
 app.use(cors({
-    origin:'https://myapp-chathut-message.netlify.app' ,                        //'https://myapp-chathut-message.netlify.app',
-    credentials: true
+    origin:'https://myapp-chathut-message.netlify.app' , 
+    credentials:true                       
 }))
 
 
