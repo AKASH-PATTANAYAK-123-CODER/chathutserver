@@ -1,6 +1,6 @@
 const Log_out=async(req,res)=>{
     try{
-         res.clearCookie('chathuttoken',{httpOnly:false,secure:true,sameSite:"none"});
+         res.clearCookie('chathuttoken',{httpOnly:false,secure:true,sameSite:"none",domain:'chathutmessageappbackend.onrender.com',path:'/'});
         res.status(200).json("Logout");
     }
  catch(error){
