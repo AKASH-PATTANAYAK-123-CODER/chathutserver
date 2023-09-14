@@ -18,7 +18,7 @@ const LoginUser = async (req, res) => {
 
         if (!email || !password) return res.status(400).json("All fields are required...");
 
-        if (!validator.isEmail(email)) return res.status(400).json("Given Mail id is not valid");
+        if (!validator.isEmail(email) || email.toLowerCase()!==email) return res.status(400).json("Given Mail id is not valid");
 
         if (!user) return res.status(400).json("Given mail id Not exist");
 

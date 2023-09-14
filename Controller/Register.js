@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
 
         if (user) return res.status(400).json("Given mail id already exist");
 
-        if (!validator.isEmail(email)) return res.status(400).json("Given Mail id is not valid");
+        if (!validator.isEmail(email) || email.toLowerCase()!==email) return res.status(400).json("Given Mail id is not valid");
 
         if (!validator.isStrongPassword(password)) return res.status(400).json("Password Must be Strong ");
 
