@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
 
         if (!name || !email || !password) return res.status(400).json("All fields are required...");
 
-        if (name.length > 16) res.status(400).json("Your Name Should be in 16 Character including Space")
+        if (name.length > 16) return res.status(400).json("Your Name Should be in 16 Character including Space")
 
         if (user) return res.status(400).json("Given mail id already exist");
 
@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
 
         await user.save();
 
-        res.status(200).json("Registration Done");
+        return res.status(200).json("Registration Done");
     }
     catch (error) {
         res.status(400).json("Server Error")
